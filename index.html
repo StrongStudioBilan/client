@@ -139,27 +139,48 @@ const SUPABASE_KEY = 'sb_publishable_7o_DDPI6PJtBeIljAPojjA_FhrlwNvR';
 const COACH_PHONE  = '594694221799'; // WhatsApp international sans +
 
 const SCORES_M0 = [
-  {id:'energie', lbl:'Énergie générale au quotidien',  desc:['Épuisé en permanence','Souvent fatigué','Variable','Bonne énergie','Très grande vitalité']},
-  {id:'sommeil', lbl:'Qualité du sommeil habituelle',   desc:['Très mauvais','Mauvais','Moyen','Bon','Excellent']},
-  {id:'stress',  lbl:'Niveau de stress perçu',          desc:['Stress très élevé','Stress élevé','Stress modéré','Stress faible','Très serein']},
-  {id:'rapport', lbl:'Rapport à l\'effort physique',    desc:['Je l\'évite','Je le redoute','Neutre','Je l\'accepte','Je l\'apprécie']},
-  {id:'douleurs',lbl:'Gênes & douleurs physiques',      desc:['Douleurs fortes','Douleurs importantes','Douleurs modérées','Douleurs légères','Aucune douleur']},
+  {id:'energie', lbl:'Énergie générale au quotidien',
+    desc:['Épuisé en permanence','Souvent fatigué','Variable','Bonne énergie','Très grande vitalité']},
+  {id:'rapport', lbl:'Rapport à l\'effort physique',
+    desc:['Je l\'évite totalement','Je le redoute','Neutre','Je l\'accepte','Je l\'apprécie vraiment']},
+  {id:'confiance',lbl:'Confiance en soi dans son corps',
+    desc:['Aucune confiance','Peu confiant(e)','Neutre','Assez confiant(e)','Très confiant(e)']},
+  {id:'douleurs',lbl:'Gênes & douleurs physiques',
+    desc:['Douleurs fortes','Douleurs importantes','Douleurs modérées','Douleurs légères','Aucune douleur']},
 ];
 const SCORES_5 = [
-  {id:'energie', lbl:'Énergie générale',                desc:['Épuisé','Fatigué','Correct','Bon','Excellent']},
-  {id:'sommeil', lbl:'Qualité du sommeil',               desc:['Très mauvais','Mauvais','Moyen','Bon','Excellent']},
-  {id:'motiv',   lbl:'Motivation & engagement',          desc:['Aucune','Faible','Moyenne','Bonne','Maximale']},
-  {id:'perf',    lbl:'Progression ressentie en séance',  desc:['En recul','Stagnation','Légère','Bonne','Remarquable']},
-  {id:'douleurs',lbl:'Gênes & douleurs physiques',       desc:['Douleurs fortes','Douleurs importantes','Douleurs modérées','Douleurs légères','Aucune douleur']},
+  {id:'energie', lbl:'Énergie générale',
+    desc:['Épuisé','Fatigué','Correct','Bon','Excellent']},
+  {id:'sommeil', lbl:'Qualité du sommeil',
+    desc:['Très mauvais','Mauvais','Moyen','Bon','Excellent']},
+  {id:'motiv',   lbl:'Motivation & engagement',
+    desc:['Aucune','Faible','Moyenne','Bonne','Maximale']},
+  {id:'perf',    lbl:'Progression ressentie en séance',
+    desc:['En recul','Stagnation','Légère','Bonne','Remarquable']},
+  {id:'douleurs',lbl:'Gênes & douleurs physiques',
+    desc:['Douleurs fortes','Douleurs importantes','Douleurs modérées','Douleurs légères','Aucune douleur']},
 ];
-const QCM_M0 = [
-  {id:'qm0-sommeil',q:'Qualité du sommeil habituelle',opts:['Très mauvaise','Mauvaise','Moyenne','Bonne','Excellente']},
-  {id:'qm0-stress', q:'Niveau de stress quotidien',   opts:['Très élevé','Élevé','Moyen','Faible','Très faible']},
-  {id:'qm0-eau',    q:'Consommation d\'eau quotidienne',opts:['< 1L','1 à 1,5L','1,5 à 2L','> 2L']},
-  {id:'qm0-repas',  q:'Organisation des repas',       opts:['1 repas/j','2 repas/j','3 repas/j','4+ repas/j']},
-  {id:'qm0-alco',   q:'Consommation d\'alcool',       opts:['Nulle','Occasionnelle','Hebdomadaire','Fréquente']},
-  {id:'qm0-tabac',  q:'Tabac',                        opts:['Non-fumeur','Ancien fumeur','Fumeur occasionnel','Fumeur régulier']},
+
+// QCM Bilan Initial M0 — 3 blocs sans doublon avec les ressentis
+const QCM_M0_SOMMEIL = [
+  {id:'qm0-duree',   q:'Durée de sommeil habituelle',      opts:['Moins de 5h','5 à 6h','6 à 7h','7 à 8h','Plus de 8h']},
+  {id:'qm0-qualsom', q:'Qualité du sommeil',                opts:['Très mauvaise','Mauvaise','Moyenne','Bonne','Excellente']},
+  {id:'qm0-reveils', q:'Réveils nocturnes',                 opts:['Jamais','Rarement','Souvent','Toutes les nuits']},
 ];
+const QCM_M0_STRESS = [
+  {id:'qm0-stress',  q:'Niveau de stress quotidien',        opts:['Très élevé','Élevé','Modéré','Faible','Très faible']},
+  {id:'qm0-source',  q:'Source principale de stress',       opts:['Travail','Famille','Finances','Santé','Plusieurs à la fois','Aucune']},
+  {id:'qm0-charge',  q:'Charge de travail habituelle',      opts:['Légère','Normale','Élevée','Très élevée']},
+];
+const QCM_M0_NUTRI = [
+  {id:'qm0-repas',   q:'Organisation des repas',            opts:['1 repas/j','2 repas/j','3 repas/j','4+ repas/j']},
+  {id:'qm0-alim',    q:'Qualité de l\'alimentation',        opts:['Très déséquilibrée','Déséquilibrée','Moyenne','Équilibrée','Très équilibrée']},
+  {id:'qm0-eau',     q:'Consommation d\'eau quotidienne',   opts:['< 1L','1 à 1,5L','1,5 à 2L','> 2L']},
+  {id:'qm0-alco',    q:'Consommation d\'alcool',            opts:['Nulle','Occasionnelle','Hebdomadaire','Fréquente']},
+  {id:'qm0-tabac',   q:'Tabac',                             opts:['Non-fumeur','Ancien fumeur','Fumeur occasionnel','Fumeur régulier']},
+];
+// Tous les QCM M0 regroupés pour l'import
+const QCM_M0 = [...QCM_M0_SOMMEIL, ...QCM_M0_STRESS, ...QCM_M0_NUTRI];
 const QCM_NUTRITION = [
   {id:'qn1',q:'Qualité de l\'alimentation ce mois-ci',opts:['Équilibrée & régulière','Correcte avec écarts','Irrégulière','Difficile à contrôler']},
   {id:'qn2',q:'Repas structurés par jour (moyenne)',  opts:['1 repas','2 repas','3 repas','4 repas ou +']},
@@ -268,8 +289,14 @@ function buildM0Form(){
   <div class="sec">Ressentis initiaux</div>
   <div class="card">${buildScores(SCORES_M0)}</div>
 
-  <div class="sec">Habitudes de vie</div>
-  <div class="card">${buildQCM(QCM_M0)}</div>`;
+  <div class="sec">Habitudes de vie — Sommeil</div>
+  <div class="card">${buildQCM(QCM_M0_SOMMEIL)}</div>
+
+  <div class="sec">Stress & Mode de vie</div>
+  <div class="card">${buildQCM(QCM_M0_STRESS)}</div>
+
+  <div class="sec">Nutrition & Hygiène de vie</div>
+  <div class="card">${buildQCM(QCM_M0_NUTRI)}</div>`;
 }
 
 // ── MONTHLY FORM ─────────────────────────────────────────────────
@@ -347,13 +374,12 @@ function buildQCM(defs){
 // ── PROGRESS ─────────────────────────────────────────────────────
 function updateProg(){
   const defs = TYPE==='m0' ? SCORES_M0 : SCORES_5;
-  const totalScores = defs.length;
-  const filledScores = Object.keys(scores).filter(k=>scores[k]>0).length;
-  const totalQCM = TYPE==='m0' ? QCM_M0.length : QCM_NUTRITION.length+QCM_LIFESTYLE.length;
-  const filledQCM = Object.keys(qcm).filter(k=>qcm[k]).length;
-  const total = totalScores + totalQCM;
+  const filledScores = defs.filter(s=>scores[s.id]>0).length;
+  const qcmDefs = TYPE==='m0' ? QCM_M0 : [...QCM_NUTRITION,...QCM_LIFESTYLE];
+  const filledQCM = qcmDefs.filter(q=>qcm[q.id]).length;
+  const total = defs.length + qcmDefs.length;
   const filled = filledScores + filledQCM;
-  const pct = Math.round(filled/total*100);
+  const pct = total>0 ? Math.round(filled/total*100) : 0;
   document.getElementById('prog-fill').style.width = pct+'%';
   document.getElementById('prog-pct').textContent = pct+'%';
   document.getElementById('submit-pct').textContent = pct+'% complété';
