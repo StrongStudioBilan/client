@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>StrongStudio — Mon Bilan</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+:root{
+  --navy:#0A1628;--card:#111E38;--card2:#162240;--border:#1E3260;
+  --green:#5DCA00;--gd:#3E8C00;--gp:#0E2A00;--gp2:#143E00;
+  --white:#F0F4FF;--grey:#6A82AA;--muted:#3A4F72;--txt:#B8C8E8;
+  --red:#E04444;--red-bg:#2A0E0E;
+  --orange:#F07000;--orange-bg:#2A1505;
+  --gold:#E8A000;--gold-bg:#2A1E00;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'DM Sans',sans-serif;background:var(--navy);color:var(--white);min-height:100vh;background-image:radial-gradient(circle at 20% 0%,rgba(93,202,0,.04) 0%,transparent 50%),radial-gradient(circle at 80% 100%,rgba(93,202,0,.03) 0%,transparent 50%)}
+
+.hdr{background:linear-gradient(135deg,#060F1E,#0D1E3A);border-bottom:3px solid var(--green);padding:14px 20px;text-align:center;box-shadow:0 2px 20px rgba(93,202,0,.12);position:sticky;top:0;z-index:10}
+.logo-name{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;letter-spacing:4px}
+.logo-sub{font-size:10px;color:var(--green);letter-spacing:3px;margin-top:2px}
+
+.wrap{max-width:480px;margin:0 auto;padding:16px 16px 80px}
+
+.welcome{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;margin:16px 0;text-align:center;position:relative;overflow:hidden}
+.welcome::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--green),transparent)}
+.welcome-name{font-family:'Rajdhani',sans-serif;font-size:26px;font-weight:700;color:var(--green);letter-spacing:2px}
+.welcome-sub{font-size:13px;color:var(--txt);margin-top:5px;line-height:1.6}
+.welcome-type{display:inline-block;margin-top:8px;background:var(--gp);border:1px solid var(--green);border-radius:20px;padding:4px 14px;font-size:11px;color:var(--green);font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:1px}
+
+.tip{background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:12px;font-size:12px;color:var(--grey);line-height:1.7;margin-bottom:16px}
+.tip strong{color:var(--txt)}
+
+.prog-wrap-outer{margin-bottom:18px;position:sticky;top:60px;background:var(--navy);padding:8px 0;z-index:5}
+.prog-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--grey);margin-bottom:6px;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:1px}
+.prog-track{height:5px;background:var(--border);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--gd),var(--green));border-radius:3px;transition:width .4s ease;box-shadow:0 0 10px var(--green)}
+
+.sec{font-family:'Rajdhani',sans-serif;font-size:10px;font-weight:700;letter-spacing:2.5px;color:var(--green);text-transform:uppercase;display:flex;align-items:center;gap:8px;margin:22px 0 12px}
+.sec::before{content:'';display:block;width:3px;height:13px;background:var(--green);border-radius:2px;flex-shrink:0}
+.sec::after{content:'';flex:1;height:1px;background:var(--border)}
+
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:14px}
+.card-green{background:var(--card);border:1px solid var(--green);border-radius:12px;padding:16px;margin-bottom:14px;box-shadow:0 0 16px rgba(93,202,0,.08)}
+
+label{display:block;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--grey);margin-bottom:5px}
+input[type=text],input[type=email],textarea{width:100%;background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:14px;padding:10px 12px;outline:none;transition:.2s}
+input:focus,textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(93,202,0,.12)}
+textarea{resize:none;min-height:88px;line-height:1.6}
+::placeholder{color:var(--muted)}
+.fg{margin-bottom:13px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* SCORE */
+.score-block{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.score-block:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+.score-q{font-size:14px;color:var(--white);font-weight:500;margin-bottom:10px;line-height:1.4}
+.score-btns{display:flex;gap:8px}
+.sb{flex:1;padding:14px 0;border:1px solid var(--border);border-radius:10px;background:var(--card2);color:var(--grey);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:20px;cursor:pointer;transition:.15s;text-align:center;-webkit-appearance:none}
+.sb:active{transform:scale(.95)}
+/* Échelle de couleurs claire et progressive : 1-2 rouge → 3 or → 4-5 vert */
+.sb.s1{background:var(--red-bg);border-color:var(--red);color:var(--red)}
+.sb.s2{background:var(--orange-bg);border-color:var(--orange);color:var(--orange)}
+.sb.s3{background:var(--gold-bg);border-color:var(--gold);color:var(--gold)}
+.sb.s4{background:var(--gp);border-color:var(--green);color:var(--green)}
+.sb.s5{background:var(--gp2);border-color:var(--green);color:var(--green);box-shadow:0 0 12px rgba(93,202,0,.3)}
+.score-desc{text-align:center;font-size:12px;color:var(--green);font-weight:600;margin-top:10px;min-height:18px;font-family:'Rajdhani',sans-serif;letter-spacing:.5px}
+
+/* QCM */
+.qcm-block{margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--border)}
+.qcm-block:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+.qcm-q{font-size:13px;color:var(--white);font-weight:500;margin-bottom:10px;line-height:1.4}
+.qcm-opts{display:flex;flex-wrap:wrap;gap:8px}
+.qcm-opt{border:1px solid var(--border);border-radius:20px;padding:8px 16px;font-size:13px;color:var(--grey);cursor:pointer;transition:.15s;background:var(--card2);user-select:none}
+.qcm-opt:active{transform:scale(.96)}
+.qcm-opt.sel{background:var(--gp);border-color:var(--green);color:var(--green);font-weight:600}
+
+/* OPEN Q */
+.open-q{margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--border)}
+.open-q:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+.open-q-lbl{font-size:13px;color:var(--white);font-weight:500;margin-bottom:5px;line-height:1.5}
+.open-q-hint{font-size:11px;color:var(--grey);margin-bottom:8px}
+
+/* SUBMIT */
+.submit-card{background:var(--card);border:1px solid var(--green);border-radius:14px;padding:22px;text-align:center;box-shadow:0 0 24px rgba(93,202,0,.1);margin-top:8px}
+.submit-card h2{font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;letter-spacing:2px;margin-bottom:6px}
+.submit-card p{font-size:12px;color:var(--txt);margin-bottom:18px;line-height:1.6}
+.btn-submit{background:var(--green);color:var(--navy);border:none;border-radius:10px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:15px;letter-spacing:2px;text-transform:uppercase;padding:16px;cursor:pointer;width:100%;transition:.2s;margin-bottom:10px}
+.btn-submit:hover{background:#6FE800}
+.btn-submit:active{transform:scale(.98)}
+.btn-submit:disabled{background:var(--muted);cursor:not-allowed;color:var(--grey)}
+.prog-pct{font-size:13px;color:var(--grey);margin-bottom:14px;font-family:'Rajdhani',sans-serif;letter-spacing:1px}
+
+.sync-status{font-size:11px;color:var(--grey);margin-top:8px;font-family:'Rajdhani',sans-serif;letter-spacing:1px;min-height:16px}
+.sync-status.ok{color:var(--green)}
+.sync-status.warn{color:var(--gold)}
+
+/* SUCCESS */
+.success{display:none;text-align:center;padding:40px 20px}
+.success-icon{font-size:56px;margin-bottom:16px}
+.success h2{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;letter-spacing:2px;color:var(--green);margin-bottom:10px}
+.success p{font-size:13px;color:var(--txt);line-height:1.7}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="logo-name">STRONGSTUDIO</div>
+  <div class="logo-sub">FORCE & SANTÉ · KOUROU</div>
+</div>
+
+<div class="wrap">
+  <div id="form-view">
+    <div class="welcome">
+      <div class="welcome-name" id="client-name">Bonjour 👋</div>
+      <div class="welcome-sub" id="welcome-sub">Quelques minutes pour préparer ton accompagnement.</div>
+      <div class="welcome-type" id="bilan-type-badge">—</div>
+    </div>
+
+    <div class="tip"><strong>Comment ça marche ?</strong><br>Remplis ce formulaire honnêtement — c'est pour toi. À la fin, clique "Envoyer à Pierre-Antoine" et WhatsApp s'ouvre avec tes réponses prêtes.</div>
+
+    <div class="prog-wrap-outer">
+      <div class="prog-labels"><span>PROGRESSION</span><span id="prog-pct">0%</span></div>
+      <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+
+    <div id="form-content"></div>
+
+    <div class="submit-card">
+      <h2>✓ Prêt à envoyer</h2>
+      <p>Clique ci-dessous — WhatsApp s'ouvre avec tes réponses formatées, prêtes à envoyer à Pierre-Antoine.</p>
+      <div class="prog-pct" id="submit-pct"></div>
+      <button class="btn-submit" id="btn-submit" onclick="submitForm()">📲 ENVOYER À PIERRE-ANTOINE</button>
+      <div class="sync-status" id="sync-status"></div>
+    </div>
+  </div>
+
+  <div class="success" id="success-view">
+    <div class="success-icon">✅</div>
+    <h2>C'est envoyé !</h2>
+    <p>Tes réponses ont été transmises à Pierre-Antoine.<br>Il les intégrera dans ton bilan avant ta prochaine séance.<br><br>À bientôt au studio !</p>
+  </div>
+</div>
+
+<script>
+// ── CONFIG ──────────────────────────────────────────────────────
+const SUPABASE_URL = 'https://ofottlzxszfzhkmwrakp.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_7o_DDPI6PJtBeIljAPojjA_FhrlwNvR';
+const COACH_PHONE  = '594694221799';
+
+// ── DÉFINITIONS DES SCORES ──────────────────────────────────────
+const SCORES_M0 = [
+  {id:'energie', lbl:'Énergie générale au quotidien',
+    desc:['Épuisé en permanence','Souvent fatigué','Variable','Bonne énergie','Très grande vitalité']},
+  {id:'rapport', lbl:'Rapport à l\'effort physique',
+    desc:['Je l\'évite totalement','Je le redoute','Neutre','Je l\'accepte','Je l\'apprécie vraiment']},
+  {id:'confiance',lbl:'Confiance en soi dans son corps',
+    desc:['Aucune confiance','Peu confiant(e)','Neutre','Assez confiant(e)','Très confiant(e)']},
+  {id:'douleurs',lbl:'Gênes & douleurs physiques',
+    desc:['Douleurs fortes','Douleurs importantes','Douleurs modérées','Douleurs légères','Aucune douleur']},
+];
+const SCORES_5 = [
+  {id:'energie', lbl:'Énergie générale',
+    desc:['Épuisé','Fatigué','Correct','Bon','Excellent']},
+  {id:'sommeil', lbl:'Qualité du sommeil',
+    desc:['Très mauvais','Mauvais','Moyen','Bon','Excellent']},
+  {id:'motiv',   lbl:'Motivation & engagement',
+    desc:['Aucune','Faible','Moyenne','Bonne','Maximale']},
+  {id:'perf',    lbl:'Progression ressentie en séance',
+    desc:['En recul','Stagnation','Légère','Bonne','Remarquable']},
+  {id:'douleurs',lbl:'Gênes & douleurs physiques',
+    desc:['Douleurs fortes','Douleurs importantes','Douleurs modérées','Douleurs légères','Aucune douleur']},
+];
+
+// ── QCM ─────────────────────────────────────────────────────────
+const QCM_M0_SOMMEIL = [
+  {id:'qm0-duree',   q:'Durée de sommeil habituelle',      opts:['Moins de 5h','5 à 6h','6 à 7h','7 à 8h','Plus de 8h']},
+  {id:'qm0-qualsom', q:'Qualité du sommeil',                opts:['Très mauvaise','Mauvaise','Moyenne','Bonne','Excellente']},
+  {id:'qm0-reveils', q:'Réveils nocturnes',                 opts:['Jamais','Rarement','Souvent','Toutes les nuits']},
+];
+const QCM_M0_STRESS = [
+  {id:'qm0-stress',  q:'Niveau de stress quotidien',        opts:['Très élevé','Élevé','Modéré','Faible','Très faible']},
+  {id:'qm0-source',  q:'Source principale de stress',       opts:['Travail','Famille','Finances','Santé','Plusieurs à la fois','Aucune']},
+  {id:'qm0-charge',  q:'Charge de travail habituelle',      opts:['Légère','Normale','Élevée','Très élevée']},
+];
+const QCM_M0_NUTRI = [
+  {id:'qm0-repas',   q:'Organisation des repas',            opts:['1 repas/j','2 repas/j','3 repas/j','4+ repas/j']},
+  {id:'qm0-alim',    q:'Qualité de l\'alimentation',        opts:['Très déséquilibrée','Déséquilibrée','Moyenne','Équilibrée','Très équilibrée']},
+  {id:'qm0-eau',     q:'Consommation d\'eau quotidienne',   opts:['< 1L','1 à 1,5L','1,5 à 2L','> 2L']},
+  {id:'qm0-alco',    q:'Consommation d\'alcool',            opts:['Nulle','Occasionnelle','Hebdomadaire','Fréquente']},
+  {id:'qm0-tabac',   q:'Tabac',                             opts:['Non-fumeur','Ancien fumeur','Fumeur occasionnel','Fumeur régulier']},
+];
+const QCM_M0 = [...QCM_M0_SOMMEIL, ...QCM_M0_STRESS, ...QCM_M0_NUTRI];
+
+const QCM_NUTRITION = [
+  {id:'qn1',q:'Qualité de l\'alimentation ce mois-ci',opts:['Équilibrée & régulière','Correcte avec écarts','Irrégulière','Difficile à contrôler']},
+  {id:'qn2',q:'Repas structurés par jour (moyenne)',  opts:['1 repas','2 repas','3 repas','4 repas ou +']},
+  {id:'qn3',q:'Grignotage & sucre ajouté',            opts:['Absent','Occasionnel','Fréquent','Quotidien']},
+  {id:'qn4',q:'Consommation d\'eau quotidienne',      opts:['< 1L','1 à 1,5L','1,5 à 2L','> 2L']},
+];
+const QCM_LIFESTYLE = [
+  {id:'ql1',q:'Charge de travail ce mois-ci',          opts:['Légère','Normale','Élevée','Très élevée / Exceptionnelle']},
+  {id:'ql2',q:'Activité physique hors séances',        opts:['Aucune','Marche occasionnelle','Marche régulière','Autre sport']},
+  {id:'ql3',q:'Qualité de la récupération générale',   opts:['Très mauvaise','Mauvaise','Correcte','Bonne']},
+];
+
+// ── CHAMPS OUVERTS (référencés explicitement) ────────────────────
+const INFOS_FIELDS = ['prenom','nom','ddn','job']; // M0 uniquement
+const OPEN_FIELDS_M0 = [
+  {k:'q_declencheur',l:'Déclencheur'},
+  {k:'q_blocages',   l:'Blocages passés'},
+  {k:'q_corps',      l:'Relation au corps'},
+  {k:'q_vision',     l:'Vision à 6 mois'},
+  {k:'q_contexte',   l:'Contexte'},
+];
+const OPEN_FIELDS_MN = [
+  {k:'q_contexte_mois',l:'Contexte du mois'},
+  {k:'q_fierte',       l:'Fierté du mois'},
+  {k:'q_feedback',     l:'Feedback'},
+];
+
+// ── STATE ────────────────────────────────────────────────────────
+const params  = new URLSearchParams(window.location.search);
+const TYPE    = params.get('type')||'mensuel';
+const CLIENT  = decodeURIComponent(params.get('client')||'');
+const MOIS    = decodeURIComponent(params.get('mois')||'');
+const BILAN_ID= params.get('bid')||('f_'+Date.now());
+
+let scores = {};
+let qcm    = {};
+let open_q = {};
+let infos  = {};
+
+// ── INIT ─────────────────────────────────────────────────────────
+function init(){
+  document.getElementById('client-name').textContent = CLIENT ? 'Bonjour '+CLIENT+' 👋' : 'Bonjour 👋';
+  document.getElementById('welcome-sub').textContent = TYPE==='m0'
+    ? 'Avant ta première séance — quelques questions pour te connaître.'
+    : (MOIS ? 'Bilan du mois de '+MOIS+'.' : 'Bilan mensuel.');
+  document.getElementById('bilan-type-badge').textContent = TYPE==='m0' ? 'BILAN INITIAL' : 'BILAN MENSUEL';
+
+  const container = document.getElementById('form-content');
+  container.innerHTML = TYPE==='m0' ? buildM0Form() : buildMonthlyForm();
+
+  // QCM bindings
+  document.querySelectorAll('.qcm-opt').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const qid = btn.closest('.qcm-block').dataset.qid;
+      btn.closest('.qcm-opts').querySelectorAll('.qcm-opt').forEach(b=>b.classList.remove('sel'));
+      btn.classList.add('sel');
+      qcm[qid] = btn.textContent;
+      updateProg();
+    });
+  });
+
+  // Inputs textuels — séparation propre infos / open_q
+  document.querySelectorAll('input[data-field], textarea[data-field]').forEach(el=>{
+    const field = el.dataset.field;
+    const kind  = el.dataset.kind; // 'info' ou 'open'
+    el.addEventListener('input',()=>{
+      if(kind==='info')      infos[field]  = el.value;
+      else                   open_q[field] = el.value;
+      updateProg();
+    });
+  });
+
+  updateProg();
+}
+
+// ── M0 FORM ──────────────────────────────────────────────────────
+function buildM0Form(){
+  return `
+  <div class="sec">Informations personnelles</div>
+  <div class="card">
+    <div class="g2">
+      <div class="fg"><label>Prénom</label><input type="text" data-field="prenom" data-kind="info" placeholder="Vanessa"></div>
+      <div class="fg"><label>Nom</label><input type="text" data-field="nom" data-kind="info" placeholder="Dupont"></div>
+    </div>
+    <div class="g2">
+      <div class="fg"><label>Date de naissance</label><input type="text" data-field="ddn" data-kind="info" placeholder="15/03/1985"></div>
+      <div class="fg"><label>Profession</label><input type="text" data-field="job" data-kind="info" placeholder="Ingénieure"></div>
+    </div>
+  </div>
+
+  <div class="sec">Questions ouvertes</div>
+  <div class="card-green">
+    <div class="open-q">
+      <div class="open-q-lbl">Qu'est-ce qui t'a amené à prendre rendez-vous aujourd'hui — qu'est-ce qui a fait que c'est maintenant ?</div>
+      <div class="open-q-hint">Le déclencheur, l'élément qui t'a poussé à faire le premier pas.</div>
+      <textarea data-field="q_declencheur" data-kind="open" placeholder="Ce qui m'a décidé..."></textarea>
+    </div>
+  </div>
+  <div class="card">
+    <div class="open-q">
+      <div class="open-q-lbl">As-tu déjà essayé de reprendre le sport ou de changer ton alimentation ? Qu'est-ce qui a bloqué ?</div>
+      <textarea data-field="q_blocages" data-kind="open" placeholder="Mes expériences passées..."></textarea>
+    </div>
+  </div>
+  <div class="card">
+    <div class="open-q">
+      <div class="open-q-lbl">Comment tu décris ta relation à ton corps en ce moment ?</div>
+      <textarea data-field="q_corps" data-kind="open" placeholder="Sans jugement — comment je me sens dans mon corps..."></textarea>
+    </div>
+  </div>
+  <div class="card">
+    <div class="open-q">
+      <div class="open-q-lbl">Dans 6 mois, si tout se passe comme tu l'espères, à quoi ressemble ton quotidien ?</div>
+      <div class="open-q-hint">Pas l'objectif chiffré — la vie que tu veux avoir.</div>
+      <textarea data-field="q_vision" data-kind="open" placeholder="Dans 6 mois je..."></textarea>
+    </div>
+  </div>
+  <div class="card">
+    <div class="open-q" style="margin:0;padding:0;border:none">
+      <div class="open-q-lbl">Y a-t-il quelque chose d'important sur ta santé, ton mode de vie ou ton contexte que tu voudrais que je sache ?</div>
+      <textarea data-field="q_contexte" data-kind="open" placeholder="Tout ce qui pourrait être utile..."></textarea>
+    </div>
+  </div>
+
+  <div class="sec">Ressentis initiaux</div>
+  <div class="card">${buildScores(SCORES_M0)}</div>
+
+  <div class="sec">Habitudes de vie — Sommeil</div>
+  <div class="card">${buildQCM(QCM_M0_SOMMEIL)}</div>
+
+  <div class="sec">Stress & Mode de vie</div>
+  <div class="card">${buildQCM(QCM_M0_STRESS)}</div>
+
+  <div class="sec">Nutrition & Hygiène de vie</div>
+  <div class="card">${buildQCM(QCM_M0_NUTRI)}</div>`;
+}
+
+// ── MONTHLY FORM ─────────────────────────────────────────────────
+function buildMonthlyForm(){
+  return `
+  <div class="sec">Ressentis du mois</div>
+  <div class="card">${buildScores(SCORES_5)}</div>
+
+  <div class="sec">Nutrition</div>
+  <div class="card">${buildQCM(QCM_NUTRITION)}</div>
+
+  <div class="sec">Mode de vie</div>
+  <div class="card">${buildQCM(QCM_LIFESTYLE)}</div>
+
+  <div class="sec">Questions ouvertes</div>
+  <div class="card-green">
+    <div class="open-q">
+      <div class="open-q-lbl">Qu'est-ce qui s'est passé de notable ce mois-ci — au travail, en famille, dans ta tête ?</div>
+      <div class="open-q-hint">Contexte particulier, période de stress, événements marquants...</div>
+      <textarea data-field="q_contexte_mois" data-kind="open" placeholder="Ce mois-ci..."></textarea>
+    </div>
+  </div>
+  <div class="card">
+    <div class="open-q">
+      <div class="open-q-lbl">Quelle est la chose dont tu es le plus fier(e) ce mois-ci — dans le sport ou en dehors ?</div>
+      <textarea data-field="q_fierte" data-kind="open" placeholder="Ce dont je suis fier(e)..."></textarea>
+    </div>
+  </div>
+  <div class="card">
+    <div class="open-q" style="margin:0;padding:0;border:none">
+      <div class="open-q-lbl">Y a-t-il quelque chose dans notre façon de travailler ensemble que tu voudrais qu'on ajuste ?</div>
+      <textarea data-field="q_feedback" data-kind="open" placeholder="Feedback sur l'accompagnement..."></textarea>
+    </div>
+  </div>`;
+}
+
+// ── SCORE BUILDER ────────────────────────────────────────────────
+function buildScores(defs){
+  return defs.map(s=>`
+    <div class="score-block">
+      <div class="score-q">${s.lbl}</div>
+      <div class="score-btns">
+        ${[1,2,3,4,5].map(i=>`<button class="sb" data-sid="${s.id}" data-val="${i}" onclick="selectScore('${s.id}',${i})">${i}</button>`).join('')}
+      </div>
+      <div class="score-desc" id="sd-${s.id}"></div>
+    </div>`).join('');
+}
+
+// CORRIGÉ : applique la classe correspondant exactement au score
+function selectScore(id, val){
+  const defs = TYPE==='m0' ? SCORES_M0 : SCORES_5;
+  const def  = defs.find(s=>s.id===id);
+  scores[id] = val;
+  // Tous les boutons jusqu'à val prennent la couleur de val (effet dégradé visuel cohérent)
+  document.querySelectorAll(`[data-sid="${id}"]`).forEach(b=>{
+    b.className = 'sb';
+    const bv = parseInt(b.dataset.val);
+    if(bv <= val){
+      b.classList.add('s'+val); // s1, s2, s3, s4 ou s5 — selon le score réel choisi
+    }
+  });
+  const sd = document.getElementById('sd-'+id);
+  if(sd) sd.textContent = def?.desc?.[val-1] || '';
+  updateProg();
+}
+
+// ── QCM BUILDER ──────────────────────────────────────────────────
+function buildQCM(defs){
+  return defs.map(q=>`
+    <div class="qcm-block" data-qid="${q.id}">
+      <div class="qcm-q">${q.q}</div>
+      <div class="qcm-opts">${q.opts.map(o=>`<div class="qcm-opt">${o}</div>`).join('')}</div>
+    </div>`).join('');
+}
+
+// ── PROGRESS ─────────────────────────────────────────────────────
+// CORRIGÉ : inclut maintenant les questions ouvertes ET les infos perso (M0)
+function updateProg(){
+  const defs = TYPE==='m0' ? SCORES_M0 : SCORES_5;
+  const qcmDefs = TYPE==='m0' ? QCM_M0 : [...QCM_NUTRITION,...QCM_LIFESTYLE];
+  const openDefs = TYPE==='m0' ? OPEN_FIELDS_M0 : OPEN_FIELDS_MN;
+
+  const filledScores = defs.filter(s=>scores[s.id]>0).length;
+  const filledQCM    = qcmDefs.filter(q=>qcm[q.id]).length;
+  const filledOpen   = openDefs.filter(f=>open_q[f.k] && open_q[f.k].trim()).length;
+  const filledInfos  = TYPE==='m0' ? INFOS_FIELDS.filter(f=>infos[f] && infos[f].trim()).length : 0;
+
+  const total = defs.length + qcmDefs.length + openDefs.length + (TYPE==='m0' ? INFOS_FIELDS.length : 0);
+  const filled = filledScores + filledQCM + filledOpen + filledInfos;
+  const pct = total>0 ? Math.round(filled/total*100) : 0;
+
+  document.getElementById('prog-fill').style.width = pct+'%';
+  document.getElementById('prog-pct').textContent = pct+'%';
+  document.getElementById('submit-pct').textContent = pct+'% complété';
+}
+
+// ── BUILD CODE D'IMPORT ──────────────────────────────────────────
+function buildCode(){
+  const defs = TYPE==='m0' ? SCORES_M0 : SCORES_5;
+  const parts = ['SS'];
+  parts.push('t:'+(TYPE==='m0'?'m0':'mn'));
+  if(CLIENT) parts.push('c:'+CLIENT);
+  if(MOIS)   parts.push('m:'+MOIS);
+  if(BILAN_ID) parts.push('bid:'+BILAN_ID);
+  if(TYPE==='m0'){
+    INFOS_FIELDS.forEach(f=>{ if(infos[f]) parts.push(f+':'+infos[f]); });
+  }
+  defs.forEach(s=>{ if(scores[s.id]) parts.push(s.id+'='+scores[s.id]); });
+  Object.entries(qcm).forEach(([k,v])=>{ if(v) parts.push(k+'='+encodeURIComponent(v)); });
+  Object.entries(open_q).forEach(([k,v])=>{ if(v) parts.push(k+'='+encodeURIComponent(v.substring(0,200))); });
+  return parts.join('|');
+}
+
+// ── FORMAT WHATSAPP ──────────────────────────────────────────────
+function buildMessage(){
+  const defs = TYPE==='m0' ? SCORES_M0 : SCORES_5;
+  let msg = TYPE==='m0'
+    ? `*BILAN INITIAL — ${CLIENT||'Client'}*\n`
+    : `*BILAN MENSUEL — ${CLIENT||'Client'} — ${MOIS||''}*\n`;
+  msg += `_${new Date().toLocaleDateString('fr-FR')}_\n\n`;
+
+  if(TYPE==='m0' && (infos.prenom||infos.nom||infos.ddn||infos.job)){
+    msg += `*Infos personnelles*\n`;
+    if(infos.prenom) msg += `Prénom : ${infos.prenom}\n`;
+    if(infos.nom)    msg += `Nom : ${infos.nom}\n`;
+    if(infos.ddn)    msg += `DDN : ${infos.ddn}\n`;
+    if(infos.job)    msg += `Profession : ${infos.job}\n`;
+    msg += '\n';
+  }
+
+  msg += `*Ressentis*\n`;
+  defs.forEach(s=>{
+    const v = scores[s.id]||0;
+    if(v) msg += `${s.lbl} : ${v}/5 — ${s.desc[v-1]}\n`;
+  });
+  msg += '\n';
+
+  const qcmDefs = TYPE==='m0' ? QCM_M0 : [...QCM_NUTRITION,...QCM_LIFESTYLE];
+  const hasQcm = qcmDefs.some(q=>qcm[q.id]);
+  if(hasQcm){
+    msg += `*Habitudes & Mode de vie*\n`;
+    qcmDefs.forEach(q=>{ if(qcm[q.id]) msg += `${q.q} : ${qcm[q.id]}\n`; });
+    msg += '\n';
+  }
+
+  const openFields = TYPE==='m0' ? OPEN_FIELDS_M0 : OPEN_FIELDS_MN;
+  const hasOpen = openFields.some(f=>open_q[f.k]);
+  if(hasOpen){
+    msg += `*Questions ouvertes*\n`;
+    openFields.forEach(f=>{ if(open_q[f.k]) msg += `_${f.l}_ : ${open_q[f.k]}\n\n`; });
+  }
+
+  msg += `---\n📋 *CODE D'IMPORT* :\n${buildCode()}`;
+  return msg;
+}
+
+// ── SYNC SUPABASE ────────────────────────────────────────────────
+// CORRIGÉ : gestion d'erreurs robuste + retour explicite + statut visible
+async function syncToSupabase(payload){
+  const statusEl = document.getElementById('sync-status');
+  try{
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/bilans`, {
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'apikey': SUPABASE_KEY,
+        'Authorization': 'Bearer '+SUPABASE_KEY,
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify(payload)
+    });
+    if(res.ok){
+      statusEl.className = 'sync-status ok';
+      statusEl.textContent = '✓ DONNÉES SYNCHRONISÉES';
+      return {ok:true};
+    } else {
+      const text = await res.text();
+      console.error('Supabase HTTP', res.status, text);
+      statusEl.className = 'sync-status warn';
+      statusEl.textContent = `⚠ Sync ${res.status} — réponses transmises via WhatsApp`;
+      return {ok:false, status:res.status, text};
+    }
+  } catch(e){
+    console.error('Supabase fetch error:', e);
+    statusEl.className = 'sync-status warn';
+    statusEl.textContent = '⚠ Hors ligne — réponses transmises via WhatsApp';
+    return {ok:false, error:e.message};
+  }
+}
+
+// ── SUBMIT ───────────────────────────────────────────────────────
+async function submitForm(){
+  const btn = document.getElementById('btn-submit');
+  btn.disabled = true;
+  btn.textContent = '⏳ Envoi en cours...';
+
+  const payload = {
+    bilan_id: BILAN_ID,
+    type: TYPE,
+    client: CLIENT,
+    mois: MOIS,
+    scores: scores,
+    qcm: qcm,
+    open_q: open_q,
+    infos: infos,
+    code: buildCode(),
+    created_at: new Date().toISOString(),
+  };
+
+  // Synchronisation Supabase (non-bloquant pour WhatsApp)
+  await syncToSupabase(payload);
+
+  // WhatsApp (toujours, même si Supabase échoue)
+  const msg = buildMessage();
+  const url = `https://wa.me/${COACH_PHONE}?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
+
+  // Affichage success
+  setTimeout(()=>{
+    document.getElementById('form-view').style.display='none';
+    document.getElementById('success-view').style.display='block';
+  }, 1200);
+}
+
+// ── START ────────────────────────────────────────────────────────
+init();
+</script>
+</body>
+</html>
